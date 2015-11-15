@@ -1,5 +1,0 @@
-ws: webservice
-ws/model : models para o webservice 
-config : pasta para arquivos de configuracao
-config/defines.php : contem as vars globais definidas com define, tal como PATH_ROOT
-index.php : controle de requisicoes
