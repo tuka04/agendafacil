@@ -47,11 +47,17 @@ abstract class Server {
 	 * 
 	 * @param  array $paths
 	 * @throws ErrorException
-	 * @return string|null
+	 * @return ArrayObj
 	 */
 	static public function getVars($paths){
 		if(!is_array($paths))
 			throw new ErrorException("Variável deverá ser um array");
-		return isset($paths[2])?$paths[2]:null;
+		if(!isset($paths[2])||empty($paths[2])||trim($paths)==""){
+			$str=file_get_contents('php://input');
+			if(!empty($str)||$str!="")
+				return new ArrayObj(get_object_vars(json_decode($str)));
+			return new ArrayObj();
+		}
+		return new ArrayObj(get_object_vars(json_decode($paths[2])));
 	}
 }

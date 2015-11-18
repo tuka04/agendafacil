@@ -31,3 +31,30 @@ var WS=function(){
 		});
 	};
 };
+
+var GetFormData=function($e){
+	return JSON.parse('{"' + decodeURI($e.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+};
+
+var Login={
+		autenticar:function(e,s){
+			var a=new WS();
+			a.url="/agendafacil/login/";
+			a.type="GET";
+			a.param={email:e,senha:s};
+			a.success=function(r){
+				window.location.href=window.location.href;
+			};
+			a.send();
+		},
+		sair:function(){
+			var a=new WS();
+			a.url="/agendafacil/login/";
+			a.type="DELETE";
+			a.param={email:e,senha:s};
+			a.success=function(r){
+				window.location.href=window.location.href;
+			};
+			a.send();
+		}
+};

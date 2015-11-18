@@ -56,6 +56,12 @@ class Login extends Usuario {
 	public function delete(ArrayObj $vars){
 		session_destroy();
 	}
+	/**
+	 * @return boolean
+	 */
+	static public function isLogado(){
+		return (isset($_SESSION[self::SESS_ID])&&Common::isTheSameVarIntString($_SESSION[self::SESS_ID])&&intval($_SESSION[self::SESS_ID])>0);
+	}
 }
 
 

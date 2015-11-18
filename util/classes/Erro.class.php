@@ -52,7 +52,6 @@ class Erro {
 		HTTPHeader::setReponseJson();
 		$arr=array();
 		$arr["error"]=true;
-		$arr["type"]="notice";
 		$arr["msg"]=$msg;
 		echo json_encode($arr);
 	}

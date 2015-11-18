@@ -33,6 +33,10 @@ class Usuario extends Model {
 		parent::put($vars);
 	}
 	
+	static public function isLogado(){
+		require_once PATH_ROOT.'model/Login.class.php';
+		return Login::isLogado();
+	}
 	
 }
 ?>

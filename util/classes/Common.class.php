@@ -6,7 +6,6 @@
  * @package classes
  * @name Common
  */
-require_once PATH_ROOT . "classes/Validator.class.php";
 class Common {
 
 	/**
@@ -347,6 +346,5 @@ class Common {
 	    fclose($o_handle);
 	    return $cnt;
 	}
-
 }
 ?>

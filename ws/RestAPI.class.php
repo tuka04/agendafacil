@@ -9,8 +9,11 @@ class RestAPI {
 	public function __construct(){
 		require_once PATH_ROOT.'ws/Server.class.php';
 		/* aqui vao os serviços liberados no webservice*/
-		$this->resource_allowed=new ArrayObj(array("usuario"
-												 ,"agenda"));
+		$this->resource_allowed=new ArrayObj(array("usuario","login"
+												 ,"especialidade"
+												 ,"especialidade_usuario"
+												
+		));
 		
 		$paths=Server::getURIPath();//uri path com recursos e variaveis
 		$resource=Server::getResource($paths);//recursos a partir do uri path
@@ -32,21 +35,45 @@ class RestAPI {
 		$ret=new ArrayObj();
 		switch ($method){
 			case 'PUT':
-				$object->put($vars);
+				try{
+					$object->put($vars);
+				}catch (Exception $e){
+					Erro::display($e->getMessage());
+					return;
+				}
 				HTTPHeader::set(HTTPResponseCode::NO_CONTENT);
 				break;
 			case 'POST':
-				$ret->append($object->post($vars));
+				try{
+					$ret->append($object->post($vars));
+				}catch (Exception $e){
+					Erro::display($e->getMessage());
+					return;
+				}
 				HTTPHeader::set(HTTPResponseCode::CREATED);
 				HTTPHeader::setReponseJson();
 				echo $ret->toJson();
 				break;
 			case 'DELETE':
-				$object->delete($vars);
+				try{
+					$object->delete($vars);
+				}catch (Exception $e){
+					Erro::display($e->getMessage());
+					return;
+				}
 				HTTPHeader::set(HTTPResponseCode::NO_CONTENT);
 				break;
 			case 'GET':
-				$ret=$object->get($vars);
+				try{
+					$ret=$object->get($vars);
+				}
+				catch (ValidatorException $e){
+					Erro::display($e->getMessage());
+				}
+				catch (Exception $e){
+					Erro::display($e->getMessage());
+					return;
+				}
 				HTTPHeader::set(HTTPResponseCode::OK);
 				HTTPHeader::setReponseJson();
 				echo $ret->toJson();
@@ -58,8 +85,16 @@ class RestAPI {
 	}
 
 	private function getObject($resource){
-		$obj_name=ucfirst($resource);
-		require_once PATH_ROOT."ws/model/".$obj_name.".class.php";
+		if(stripos($resource,"_")!==false){
+			$aux=explode("_",$resource);
+			$obj_name="";
+			foreach ($aux as $v)
+				$obj_name.=ucfirst($v);
+		}
+		else
+			$obj_name=ucfirst($resource);
+		require_once PATH_ROOT."model/".$obj_name.".class.php";
+		
 		return new $obj_name;
 	}
 
