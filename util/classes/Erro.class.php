@@ -14,8 +14,8 @@ class Erro {
 	 */	
 	public static function display($msg=""){
 		HTTPHeader::setReponseJson();
-		HTTPHeader::set(HTTPResponseCode::INTERNAL_SERVER_ERROR);
-		$arr=array($msg);
+		HTTPHeader::set(HTTPResponseCode::INTERNAL_SERVER_ERROR,$msg);
+		$arr=array("msg"=>$msg);
 		echo json_encode($arr);
 	}
 	

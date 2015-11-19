@@ -69,6 +69,7 @@ class RestAPI {
 				}
 				catch (ValidatorException $e){
 					Erro::display($e->getMessage());
+					return;
 				}
 				catch (Exception $e){
 					Erro::display($e->getMessage());
@@ -118,7 +119,7 @@ abstract class HTTPResponseCode {
 }
 
 final class HTTPHeader {
-	static public function set($c){
+	static public function set($c,$msg=""){
 		switch ($c){
 
 			case HTTPResponseCode::OK:
@@ -131,10 +132,10 @@ final class HTTPHeader {
 				header('HTTP/1.1 204 No Content');
 				break;
 			case HTTPResponseCode::NOT_FOUND:
-				header('HTTP/1.1 404 Not Found');
+				header('HTTP/1.1 404 '."Serviço não encontrado");
 				break;
 			case HTTPResponseCode::INTERNAL_SERVER_ERROR:
-				header('HTTP/1.1 500 Internal Server Error');
+				header('HTTP/1.1 500 '.$msg);
 				break;
 			default:
 				header('HTTP/1.1 404 Not Found');

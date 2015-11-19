@@ -4,5 +4,8 @@ $(document).ready(function() {
 		Login.autenticar(d.email,d.senha);
 		return false;
 	});
+	$("#logout").on("click",function(){
+		Login.sair();
+	});
 });
 

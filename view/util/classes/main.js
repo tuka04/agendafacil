@@ -6,7 +6,7 @@ var WS=function(){
 	this.success = function(r) {};
 	this.beforeSend = function() {};
 	this.complete = function(r, s) {};
-	this.error = function(a, b, c) {};
+	this.error = function(t) {};
 	this.type="GET";
 	this.send = function() {
 		var t = this;
@@ -14,7 +14,7 @@ var WS=function(){
 			url : t.url,
 			dataType : t.dataType,
 			type : t.type,
-			data : JSON.stringify(t.param),
+			data :JSON.stringify(t.param),
 			async : t.async,
 			beforeSend : function() {
 				t.beforeSend();
@@ -22,8 +22,8 @@ var WS=function(){
 			complete : function(r, s) {
 				t.complete(r, s);
 			},
-			error : function(r, s, text) {
-				t.error(r, s, text);
+			error : function(r, s, tx) {
+				t.error(tx);
 			},
 			success : function(r) {
 				t.success(r);
@@ -45,15 +45,20 @@ var Login={
 			a.success=function(r){
 				window.location.href=window.location.href;
 			};
+			a.error=function(t){
+				alert(t);
+			};
 			a.send();
 		},
 		sair:function(){
 			var a=new WS();
 			a.url="/agendafacil/login/";
 			a.type="DELETE";
-			a.param={email:e,senha:s};
 			a.success=function(r){
 				window.location.href=window.location.href;
+			};
+			a.error=function(t){
+				alert(t);
 			};
 			a.send();
 		}

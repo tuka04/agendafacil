@@ -8,12 +8,22 @@
 <body>
 
 
-
-<form id="login">
-  Username: <input type="text" name="email">
-  Encryption: <input type="password" name="senha">
-  <input type="submit">
-</form>
-
+<?php
+require_once 'model/Usuario.class.php';
+if(Usuario::isLogado()){
+?>
+	<input type="button" id="logout" value="Sair"/>
+<?php 
+}
+else{
+?>
+	<form id="login">
+	  Email: <input type="text" name="email">
+	  Senha: <input type="password" name="senha">
+	  <input type="submit">
+	</form>
+<?php
+}
+?>
 </body>
 </html>

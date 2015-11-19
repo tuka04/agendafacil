@@ -26,10 +26,10 @@ abstract class Server {
 	 */
 	static public function getURIPath(){
 		$uri=parse_url(self::getURI());
-
 		$paths = explode('/',$uri['path']);
+		if(isset($uri["query"]) && $uri["query"]!="" && $paths[3]=="")
+			$paths[3]=urldecode($uri["query"]);
 		array_shift($paths); //remove o primeiro elemento que é vazio
-		
 		return $paths;
 	}
 	/**
@@ -52,7 +52,7 @@ abstract class Server {
 	static public function getVars($paths){
 		if(!is_array($paths))
 			throw new ErrorException("Variável deverá ser um array");
-		if(!isset($paths[2])||empty($paths[2])||trim($paths)==""){
+		if(!isset($paths[2])||empty($paths[2])||trim($paths[2])==""){
 			$str=file_get_contents('php://input');
 			if(!empty($str)||$str!="")
 				return new ArrayObj(get_object_vars(json_decode($str)));
